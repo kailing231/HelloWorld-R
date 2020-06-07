@@ -95,7 +95,7 @@ unclass(x)  # see how R coded the levels into int
 x <- factor(c("yes", "yes", "no", "yes", "no"),
             levels = c("yes", "no"))
 
-# Missing Values ====
+### Missing Values ====
 # denoted by NaN for undefined mathematical operations
 # or NA for everything else
 # - is.na() is used to test objects if they are NA
@@ -113,3 +113,34 @@ is.na(x)    # [1] FALSE FALSE  TRUE  TRUE FALSE
 is.nan(x)   # [1] FALSE FALSE  TRUE FALSE FALSE
 
 ### Data Frame ====
+# - same no of rows
+# - may have diff col type
+# - row.names
+x <- data.frame(foo = 1:4, bar = c(T, T, F, F))
+x
+nrow(x)
+ncol(x)
+
+### Names ====
+# aka column name
+# R objects can also have names, 
+# very useful for writing readable code and self-describing objects
+x <- 1:3
+names(x)  # NULL
+# [1] 1 2 3
+
+# add names to existing integer vector
+names(x) <- c("foo", "bar", "norf")   # [1] "foo"  "bar"  "norf"
+# foo  bar norf 
+# 1    2    3 
+
+## List names
+x <- list(a = 1, b = 2, c = 3) 
+x
+
+## Matrix names
+m <- matrix(1:4, nrow = 2, ncol = 2)
+dimnames(m) <- list(c("a", "b"), c("c", "d"))   # row then col
+m
+
+# ==== END ====
