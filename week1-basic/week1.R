@@ -143,4 +143,36 @@ m <- matrix(1:4, nrow = 2, ncol = 2)
 dimnames(m) <- list(c("a", "b"), c("c", "d"))   # row then col
 m
 
-# ==== END ====
+### Subset List ====
+x <- list(foo = 1:4, bar = 0.6)
+single <- x[1]    # single bracket, always return same class, thus is list
+double <- x[[1]]  # double brackets, return seq of integer
+
+x$bar             # $, element with the name
+x[["bar"]]        # same but double bracket with string
+x["bar"]          # single bracket, always return same class, thus is list
+
+# subset multiple elements of a list
+# cannot use double bracket :(
+x <- list(foo = 1:4, bar = 0.6, baz = "hello")
+x[c(1, 3)]
+
+# [[ operator can be used with computed indices; 
+# $ can only be used with literal names
+x <- list(foo = 1:4, bar = 0.6, baz = "hello")
+name <- "foo"
+x[[name]]         # computed index for ‘foo’, returns [1] 1 2 3 4
+x$name            # returns NULL
+x$foo             # returns [1] 1 2 3 4
+
+# [[ can take an integer sequence
+x <- list(a = list(10, 12, 14), b = c(3.14, 2.81))  # a list in a list :O
+# extract `14`
+x[[c(1, 3)]]    # extract 1st element's, 3rd element
+
+# x[[1]] == 1st element (list a)
+# x[[1]][[3]] == 3rd element of list a
+x[[1]][[3]]
+
+# extract `3.14`
+x[[c(2, 1)]]    # extract 2nd element's, 1st element
