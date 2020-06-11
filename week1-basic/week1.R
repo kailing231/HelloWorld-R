@@ -170,9 +170,71 @@ x <- list(a = list(10, 12, 14), b = c(3.14, 2.81))  # a list in a list :O
 # extract `14`
 x[[c(1, 3)]]    # extract 1st element's, 3rd element
 
-# x[[1]] == 1st element (list a)
+# x[[1]] == 1st element of list x: list a
 # x[[1]][[3]] == 3rd element of list a
 x[[1]][[3]]
 
 # extract `3.14`
 x[[c(2, 1)]]    # extract 2nd element's, 1st element
+
+### Subset Matrix ====
+x <- matrix(1:6, 2, 3)
+x[2, 1]
+# Indices can also be missing
+x[1, ]  # entire 1st row
+x[, 1]  # entire 1st col
+
+# By default, when a single element of a matrix is retrieved, 
+# it is returned as a vector of length 1 rather than a 1 × 1 matrix.
+# This behavior can be turned off by setting drop = FALSE.
+x[1, 2, drop = FALSE]   # returns a matrix of one element
+x[1, , drop = FALSE]    # returns a matrix of one row
+
+### Partial Matching ====
+# good for saving time when typing with command line
+x <- list(aardvark = 1:5)
+# typing `aardvark` everytime is too troublesome, so just type x$a
+x$a                     # works
+# by defauly, [[ doesnt do partial matching like $
+x[["a"]]                # must be exact match, doesnt work
+x[["a", exact = FALSE]] # now it works
+
+### Remove NA Values ====
+x <- c(1, 2, NA, 4, NA, 5)
+# Method 1
+bad <- is.na(x)
+x[!bad]   # returns vector of num with non-NA elements
+
+# Method 2
+# check multiple objects, all must have same "index" that have non-NA
+x <- c(1, 2, NA, 4, NA, NA)
+y <- c("a", "b", NA, "d", NA, "f")
+good <- complete.cases(x, y)
+x[good]
+y[good]
+
+# Example remove NA from Data Frame
+airquality[1:6, ]   # first 6 rows
+# only want rows w/ no NA, aka rows like row 1-4
+good <- complete.cases(airquality)
+airquality[good, ][1:6, ]   # filter good rows, then show first 6 rows
+### Vectorized Operations ====
+# easy to use on command line
+# Many operations in R are vectorized making code more efficient, concise, and easier to read.
+x <- 1:4; y <- 6:9
+# to add 1st element of x to y, 2nd element of x to y etc
+# arithmetic operations
+x + y       # no need for loops like other languages  :D
+x * y
+x / y
+
+# returns logic vector
+x > 2
+x >= 2
+y == 8
+
+# Vectorized Matrix Operations
+x <- matrix(1:4, 2, 2); y <- matrix(rep(10, 4), 2, 2)   # two 2x2 matrix
+x * y     # element-wise multiplication
+x / y     # element-wise multiplication
+x %*% y   # true matrix multiplication
