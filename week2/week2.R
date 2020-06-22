@@ -1,17 +1,17 @@
 ### if/else ====
 # usual way
 if (x > 3) {
-  y <- 10
+    y <- 10
 } else {
-  y <- 0
+    y <- 0
 }
 
 
 # another valid if/else structure
 y <- if (x > 3) {
-  10
+    10
 } else {
-  0
+    0
 }
 
 ### for loop ====
@@ -20,37 +20,37 @@ x <- c("a", "b", "c", "d")
 
 # Example 1
 for (i in 1:4) {
-  print(x[i])
+    print(x[i])
 }
 
 # Example 2
 for (i in seq_along(x)) {
-  print(x[i])
+    print(x[i])
 }
 
 # Example 3
 for (letter in x) {
-  print(letter)
+    print(letter)
 }
 
 # Example 1 but since its one line, no need brackets
 for (i in 1:4)
-  
-  print(x[i])
+    print(x[i])
 
 ### while loop ====
 # Example
 z <- 5
-while (z >= 3 && z <= 10) { # conditions are always checked from left to right
-  print(z)
-  coin <- rbinom(1, 1, 0.5) # "coin flip", either return 0 or 1
-  
-  if (coin == 1) {
+# conditions are always checked from left to right
+while (z >= 3 && z <= 10) {
+    print(z)
+    coin <- rbinom(1, 1, 0.5) # "coin flip", either return 0 or 1
+    
     ## random walk
-    z <- z + 1
-  } else {
-    z <- z - 1
-  }
+    if (coin == 1) {
+        z <- z + 1
+    } else {
+        z <- z - 1
+    }
 }
 
 ### repeat loop ====
@@ -63,22 +63,23 @@ x0 <- 1
 tol <- 1e-8
 
 repeat {
-  x1 <- computeEstimate() # NOTE: computeEstimate() is not a real function
-  if(abs(x1 - x0) < tol) {
-    break
-  } else {
-    x0 <- x1
-  }
+    # NOTE: computeEstimate() is not a real function
+    x1 <- computeEstimate()
+    if (abs(x1 - x0) < tol) {
+        break
+    } else {
+        x0 <- x1
+    }
 }
 
 ### next and return ====
 # used to skip an iteration of a loop
-for(i in 1:100) {
-  if (i <= 20) {
+for (i in 1:100) {
     # Skip the first 20 iterations
-    next
-  }
-  # Do something here
+    if (i <= 20) {
+        next
+    }
+    # Do something here
 }
 
 # `return` signals that a function should exit and return a given value
@@ -88,14 +89,14 @@ for(i in 1:100) {
 
 ## Example 1, no "error" as nothing actually went wrong
 f <- function(a, b) {
-  a ^ 2
+    a ^ 2
 }
 f(2)
 
 ## Example 2, error only occurs at print(b)
 f <- function(a, b) {
-  print(a)
-  print(b)
+    print(a)
+    print(b)
 }
 f(45)
 
@@ -106,7 +107,7 @@ f(45)
 
 ## Example 1, specify type = "l" instead of default type = "p"
 myplot <- function(x, y, type = "l", ...) {
-  plot(x, y, type = type, ...)
+    plot(x, y, type = type, ...)
 }
 
 # The ... argument is also necessary when the number of arguments
@@ -123,10 +124,10 @@ paste("a", "b", se = ":")
 ### Lexical Scoping ====
 ## Example 1, a function that creates and return a function
 make.power <- function(n) {
-  pow <- function(x) {
-    x ^ n
-  }
-  pow
+    pow <- function(x) {
+        x ^ n
+    }
+    pow
 }
 
 cube <- make.power(3)
@@ -146,13 +147,13 @@ y <- 10
 
 # variables y and g are free variable
 f <- function(x) {
-  y <- 2
-  y ^ 2 + g(x)
+    y <- 2
+    y ^ 2 + g(x)
 }
 
 # variable y  g is a free variable
 g <- function(x) {
-  x * y # the value of y here, ignore value of y in f()
+    x * y # the value of y here, ignore value of y in f()
 }
 
 f(3)
