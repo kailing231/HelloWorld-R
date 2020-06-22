@@ -161,3 +161,55 @@ f(3)
 # in f(), y ^ 2 + g(x) == 2 ^ 2 + g(x) == 4 + g(x)
 # in g(), x * y == 3 * 10 == 30
 # back to f(), 4 + g(x) == 4 + 30 == 34
+### Time ====
+x <- Sys.time()
+x
+
+## Example 1, POSIXlt format
+p <- as.POSIXlt(x)
+names(unclass(p))
+p$sec
+
+## Example 2, POSIXct format
+x <- Sys.time()
+x # Already in ‘POSIXct’ format
+# [1] "2020-06-22 14:22:18 +08"
+unclass(x)
+# [1] 1592806939
+x$sec
+# Error: $ operator is invalid for atomic vectors
+p <- as.POSIXlt(x)
+p$sec
+# [1] 18.51515
+
+### use strptime function to change string to date format ====
+datestring <- c("January 10, 2012 10:40", "December 9, 2011 9:10")
+x <- strptime(datestring, "%B %d, %Y %H:%M")
+x           # [1] "2012-01-10 10:40:00 EST" "2011-12-09 09:10:00 EST"
+class(x)    # [1] "POSIXlt" "POSIXt"
+
+### Operations on Dates and Times
+# + and - and comparisons (==, <=)
+x <- as.Date("2012-01-01")
+y <- strptime("9 Jan 2011 11:34:21", "%d %b %Y %H:%M:%S")
+
+# x and y are not the same type of object
+x-y
+# Warning: Incompatible methods ("-.Date",
+# "-.POSIXt") for "-"
+# Error: non-numeric argument to binary operator
+
+x <- as.POSIXlt(x)
+x-y     # Time difference of 356.3 days
+
+## does keeps track of leap years, leap seconds, daylight savings, and time zones
+# Example 1, same timezone
+x <- as.Date("2012-03-01")
+y <- as.Date("2012-02-28")
+x-y     # Time difference of 2 days
+
+# Example 1, diff timezone
+x <- as.POSIXct("2012-10-25 01:00:00")
+y <- as.POSIXct("2012-10-25 06:00:00", tz = "GMT")
+# looks like 5h diff but is actually 13h diff
+y-x     # Time difference of 13 hours
