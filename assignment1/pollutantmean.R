@@ -1,4 +1,5 @@
 ### part 1
+## calculates the mean of a pollutant (sulfate or nitrate) across a specified list of monitors
 # The function 'pollutantmean' takes three arguments: 'directory', 'pollutant', and 'id'.
 # Given a vector monitor ID numbers,
 # 'pollutantmean' reads that monitors' particulate matter data
@@ -24,8 +25,7 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
     means <- NULL # vector to contain all pollutant value of all monitors
     for (monitor in id) {
         # Example filePath: "specdata/001.csv"
-        filePath <-
-            paste(directory, "/", sprintf("%03d", monitor), ".csv", sep = "")
+        filePath <- paste(directory, "/", sprintf("%03d", monitor), ".csv", sep = "")
         df_data <- read.csv(filePath)
         means <- c(means, df_data[[pollutant]])
     }
