@@ -45,3 +45,34 @@ rpois(10, 20) # [1] 24 23 20 11 22 24 16 17 18 17
 ppois(2, 2) # [1] 0.6766764 , Pr(x <= 2)
 ppois(4, 2) # [1] 0.947347 , Pr(x <= 4)
 ppois(6, 2) # [1] 0.9954662 , Pr(x <= 6)
+
+### Generate Random Numbers from a Linear Model ====
+# Example 1: Stimulate from linear model
+set.seed(20)
+x <- rnorm(100)
+e <- rnorm(100, 0, 2)
+y <- 0.5 + 2 * x + e
+summary(y)
+#  Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# -6.4084 -1.5402  0.6789  0.6893  2.9303  6.5052 
+plot(x, y) # clear linear trend
+
+# Example 2: x is binary
+set.seed(10)
+x <- rbinom(100, 1, 0.5)
+e <- rnorm(100, 0, 2)
+y <- 0.5 + 2 * x + e
+summary(y)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# -3.4936 -0.1409  1.5767  1.4322  2.8397  6.9410 
+plot(x, y) # looks different, but still has a linear trend
+
+# Example 3: linear model with Poisson distribution
+set.seed(1)
+x <- rnorm(100)
+log.mu <- 0.5 + 0.3 * x
+y <- rpois(100, exp(log.mu))
+summary(y)
+#  Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0.00    1.00    1.00    1.55    2.00    6.00 
+plot(x, y) # as x increase, y increase, so linear trend
