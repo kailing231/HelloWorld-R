@@ -76,3 +76,14 @@ summary(y)
 #  Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 # 0.00    1.00    1.00    1.55    2.00    6.00 
 plot(x, y) # as x increase, y increase, so linear trend
+### Random Sampling ====
+set.seed(1)
+sample(1:10, 4) # [1] 9 4 7 1
+sample(1:10, 4) # [1] 2 7 3 6
+sample(letters, 5) # [1] "r" "s" "a" "u" "w"
+
+# permutation
+sample(1:10) # [1] 10  6  9  2  1  5  8  4  3  7
+sample(1:10) # [1]  5 10  2  8  6  1  4  3  9  7
+
+sample(1:10, replace = TRUE) # [1]  3  6 10 10  6  4  4 10  9  7
