@@ -1,27 +1,31 @@
-### 2. Finding the best hospital in a state
+### 3. Ranking hospitals by outcome in a state
 
-# take two arguments: 
-# the 2-character abbreviated name of a state 
-# and an outcome name. 
+# takes three arguments: 
+# the 2-character abbreviated name of a state (state), 
+# an outcome (outcome), 
+# and the ranking of a hospital in that state for that outcome (num).
 
 # The function reads the outcome-of-care-measures.csv file 
 # and returns a character vector with the name of the hospital 
-# that has the best (i.e. lowest) 30-day mortality for the specified outcome in that state. 
+# that has the ranking specified by the num argument. 
 
-# The hospital name is the name provided in the Hospital.Name variable. 
-# The outcomes can be one of "heart attack", "heart failure", or "pneumonia". 
+# For example, the call rankhospital("MD", "heart failure", 5)
+# would return a character vector containing the name of the hospital 
+# with the 5th lowest 30-day death rate for heart failure. 
+
+# The num argument can take values "best", "worst", 
+# or an integer indicating the ranking (smaller numbers are better). 
+# If the number given by num is larger than the number of hospitals in that state, 
+# then the function should return NA. 
 
 # Hospitals that do not have data on a particular outcome 
 # should be excluded from the set of hospitals when deciding the rankings.
 
 # Handling ties. 
-# If there is a tie for the best hospital for a given outcome, 
-# then the hospital names should be sorted in alphabetical order 
-# and the first hospital in that set should be chosen 
-# (i.e. if hospitals "b", "c", and "f" are tied for best, 
-# then hospital "b" should be returned)
+# It may occur that multiple hospitals have the same 30-day mortality rate for a given cause of death. 
+# In those cases ties should be broken by using the hospital name. 
 
-best <- function(state, outcome) {
+rankhospital <- function(state, outcome, num = "best") {
     ## Read outcome data
     df_outcome <- read.csv("outcome-of-care-measures.csv", colClasses = "character")
     
@@ -51,7 +55,8 @@ best <- function(state, outcome) {
         colIndex <- 23
     }
     
-    ## Return hospital name in that state with lowest 30-day death rate
+    ## Return hospital name in that state with the given rank 30-day death rate
+    # TODO
     # filter state
     df_filter <- df_outcome[df_outcome$State == state, ] 
     # update rate to numeric from character
@@ -63,5 +68,15 @@ best <- function(state, outcome) {
     df_filter <- df_filter[order(df_filter[,colIndex],
                                  df_filter$Hospital.Name), ]
     
-    df_filter$Hospital.Name[1]
+    # return rank
+    rank <- integer(0)
+    if(num == "best"){
+        rank <- 1
+    } else if (num == "worst") {
+        rank <- nrow(df_filter)
+    } else {
+        rank <- num
+    }
+    
+    df_filter$Hospital.Name[rank]
 }
