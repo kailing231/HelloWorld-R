@@ -64,11 +64,11 @@ rankhospital <- function(state, outcome, num = "best") {
     # remove NA
     df_outcome <- df_outcome[complete.cases(df_outcome), ]
     
-    # order columns: colIndex and hospital name, desired result at top
-    bestHospitals <- df_outcome[order(df_outcome[,colIndex],
-                                  df_outcome$Hospital.Name), ]
+    # order columns: outcome and hospital name, desired result at top
+    bestHospitals <- df_outcome[order(df_outcome[, colIndex],
+                                      df_outcome$Hospital.Name),]
     
-    # return rank
+    # return rank from num
     rank <- integer(0)
     if(num == "best"){
         rank <- 1

@@ -59,9 +59,9 @@ best <- function(state, outcome) {
     # remove NA
     df_outcome <- df_outcome[complete.cases(df_outcome), ]
     
-    # order columns: colIndex and hospital name, desired result at top
-    bestHospitals <- df_outcome[order(df_outcome[,colIndex],
-                                  df_outcome$Hospital.Name), ]
+    # order columns: outcome and hospital name, desired result at top
+    bestHospitals <- df_outcome[order(df_outcome[, colIndex],
+                                      df_outcome$Hospital.Name),]
     
     bestHospitals$Hospital.Name[1]
 }
