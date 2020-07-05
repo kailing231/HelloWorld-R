@@ -58,25 +58,25 @@ rankhospital <- function(state, outcome, num = "best") {
     ## Return hospital name in that state with the given rank 30-day death rate
     # TODO
     # filter state
-    df_filter <- df_outcome[df_outcome$State == state, ] 
+    df_outcome <- df_outcome[df_outcome$State == state, ] 
     # update rate to numeric from character
-    df_filter[, colIndex] <- as.numeric(df_filter[, colIndex])
+    df_outcome[, colIndex] <- as.numeric(df_outcome[, colIndex])
     # remove NA
-    df_filter <- df_filter[complete.cases(df_filter), ]
+    df_outcome <- df_outcome[complete.cases(df_outcome), ]
     
     # order columns: colIndex and hospital name, desired result at top
-    df_filter <- df_filter[order(df_filter[,colIndex],
-                                 df_filter$Hospital.Name), ]
+    bestHospitals <- df_outcome[order(df_outcome[,colIndex],
+                                  df_outcome$Hospital.Name), ]
     
     # return rank
     rank <- integer(0)
     if(num == "best"){
         rank <- 1
     } else if (num == "worst") {
-        rank <- nrow(df_filter)
+        rank <- nrow(bestHospitals)
     } else {
         rank <- num
     }
     
-    df_filter$Hospital.Name[rank]
+    bestHospitals$Hospital.Name[rank]
 }

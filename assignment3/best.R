@@ -53,15 +53,15 @@ best <- function(state, outcome) {
     
     ## Return hospital name in that state with lowest 30-day death rate
     # filter state
-    df_filter <- df_outcome[df_outcome$State == state, ] 
+    df_outcome <- df_outcome[df_outcome$State == state, ] 
     # update rate to numeric from character
-    df_filter[, colIndex] <- as.numeric(df_filter[, colIndex])
+    df_outcome[, colIndex] <- as.numeric(df_outcome[, colIndex])
     # remove NA
-    df_filter <- df_filter[complete.cases(df_filter), ]
+    df_outcome <- df_outcome[complete.cases(df_outcome), ]
     
     # order columns: colIndex and hospital name, desired result at top
-    df_filter <- df_filter[order(df_filter[,colIndex],
-                                 df_filter$Hospital.Name), ]
+    bestHospitals <- df_outcome[order(df_outcome[,colIndex],
+                                  df_outcome$Hospital.Name), ]
     
-    df_filter$Hospital.Name[1]
+    bestHospitals$Hospital.Name[1]
 }
