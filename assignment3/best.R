@@ -20,6 +20,45 @@
 
 best <- function(state, outcome) {
     ## Read outcome data
+    df_outcome <- read.csv("outcome-of-care-measures.csv", colClasses = "character")
+    
     ## Check that state and outcome are valid
+    state <- toupper(state) # $State is always all uppercase
+    # check if state is valid
+    if (!state %in% unique(df_outcome$State)) {
+        stop("invalid state")
+    }
+    
+    outcome <- tolower(outcome) # is always all lowercase
+    # check if outcome is valid
+    if (!outcome %in% c("heart attack", "heart failure", "pneumonia")) {
+        stop("invalid outcome")
+    }
+    
+    # set colIndex
+    colIndex <- integer(0)
+    if(outcome == "heart attack") {
+        # Hospital 30-Day Death (Mortality) Rates from Heart Attack
+        colIndex <- 11
+    } else if (outcome == "heart failure") {
+        # Hospital 30-Day Death (Mortality) Rates from Heart Failure
+        colIndex <- 17
+    } else if (outcome == "pneumonia") {
+        # Hospital 30-Day Death (Mortality) Rates from Pneumonia
+        colIndex <- 23
+    }
+    
     ## Return hospital name in that state with lowest 30-day death rate
+    # filter state
+    df_filter <- df_outcome[df_outcome$State == state, ] 
+    # update rate to numeric from character
+    df_filter[, colIndex] <- as.numeric(df_filter[, colIndex])
+    # remove NA
+    df_filter <- df_filter[complete.cases(df_filter), ]
+    
+    # order columns: colIndex and hospital name, desired result at top
+    df_filter <- df_filter[order(df_filter[,colIndex],
+                                 df_filter$Hospital.Name), ]
+    
+    df_filter$Hospital.Name[1]
 }
